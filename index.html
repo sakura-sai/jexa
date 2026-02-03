@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zela.info | by JEXA</title>
+    <style>
+        :root {
+            --gold: #ffcc00;
+            --bg: #000000;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            height: 100%;
+        }
+
+        /* --- GLOW UP ANIMATION --- */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.2s ease-in-out;
+        }
+
+        .glow-up {
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            font-weight: 900;
+            color: black; /* Starts dark */
+            letter-spacing: 12px;
+            animation: intensify 2.5s forwards ease-in-out;
+            text-transform: uppercase;
+        }
+
+        .creator-tag {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #333;
+            letter-spacing: 5px;
+            animation: fadeInCreator 3s forwards ease-in-out;
+            animation-delay: 1s;
+            text-transform: uppercase;
+        }
+
+        @keyframes intensify {
+            0% { color: #111; text-shadow: 0 0 0px var(--gold); transform: scale(0.9); }
+            50% { color: var(--gold); text-shadow: 0 0 20px var(--gold), 0 0 40px var(--gold); transform: scale(1.05); }
+            100% { color: var(--gold); text-shadow: 0 0 10px var(--gold); transform: scale(1); }
+        }
+
+        @keyframes fadeInCreator {
+            0% { opacity: 0; transform: translateY(10px); color: #222; }
+            100% { opacity: 1; transform: translateY(0); color: #888; }
+        }
+
+        /* --- MAIN SITE CONTENT --- */
+        #main-content {
+            opacity: 0;
+            padding: 50px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            transition: opacity 1s ease;
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .jexa-brand {
+            background: var(--gold);
+            color: black;
+            padding: 2px 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .card {
+            background: #111;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #222;
+            line-height: 1.6;
+        }
+
+        .highlight { color: var(--gold); font-weight: bold; }
+.jexa-btn {
+    background: var(--gold);
+    color: black;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.jexa-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px var(--gold);
+}
+
+/* ---- WRITER INTERFACE ---- */
+
+#writer-screen {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.writer-card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 700px;
+    width: 90%;
+    animation: fadeUp 0.6s ease;
+}
+
+.writer-card h1 {
+    color: var(--gold);
+}
+
+.close-btn {
+    margin-top: 25px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 6px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    background: var(--gold);
+    color: black;
+}
+
+@keyframes fadeUp {
+    from { opacity:0; transform: translateY(30px); }
+    to { opacity:1; transform: translateY(0); }
+}
+.floating-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+    position: relative;
+    animation: floatText 4s ease-in-out infinite;
+}
+
+.floating-title span {
+    color: var(--gold);
+}
+.floating-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 8px;
+}
+
+/* ===== PREMIUM UI EFFECTS ===== */
+
+/* Glass Card + Neon Pulse Border */
+
+.card {
+    background: rgba(20, 20, 20, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,204,0,0.25);
+    box-shadow: 0 0 25px rgba(255,204,0,0.05);
+    animation: neonPulse 4s infinite ease-in-out;
+}
+
+@keyframes neonPulse {
+    0%,100% { border-color: rgba(255,204,0,0.2); }
+    50% { border-color: rgba(255,204,0,0.6); }
+}
+
+/* Floating Title */
+
+.floating-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: white;
+    position: relative;
+    animation: floatText 2s ease-in-out infinite;
+}
+
+.floating-title span {
+    color: var(--gold);
+}
+
+@keyframes floatText {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* Animated Underline */
+
+.floating-title::after {
+    content: "";
+    position: absolute;
+    left: 36px;
+    bottom: -8px;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    animation: underlineGrow 1.5s forwards;
+}
+
+@keyframes underlineGrow {
+    to { width: 120px; }
+}
+
+/* Icons */
+
+.section-icon {
+    font-size: 1.8rem;
+}
+
+/* Glow Divider */
+
+.glow-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 50px 0;
+}
+
+
+/* Scroll Reveal */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Parallax */
+
+.parallax {
+    will-change: transform;
+}
+
+.reveal {
+    opacity: 1 !important;
+    transform: none !important;
+}
+.zela-float {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #7c29b8; /* rich gold */
+    animation: zelaFloat 1.99s ease-in-out infinite;
+}
+
+.zela-float span {
+    color: #6a1191;
+}
+
+@keyframes zelaFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+.header-center {
+    justify-content: center;
+    position: relative;
+}
+
+.header-center .jexa-btn {
+    position: absolute;
+    right: 0;
+}
+
+/* Bigger Zela */
+
+.big-zela {
+    font-size: 2.8rem;
+}
+
+/* Adjust on mobile */
+
+@media (max-width: 900px) {
+    .big-zela {
+        font-size: 1.1rem;
+    }
+}
+.main-logo {
+    /* Change 40px to something bigger like 70px or 80px */
+    height: 75px; 
+    
+    width: auto;
+    vertical-align: middle;
+    margin-right: 15px; /* Give it a bit more space from the text */
+    
+    /* Optional: Add a slight drop shadow to make it pop like the text */
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+/* Ensure the H2 container handles the image well */
+.big-zela {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Keeps everything centered in the header */
+}
+  /* This targets the bold keywords in all your CMMS lists */
+.cmms-list li strong {
+    color: #a9f3f4;          /* A solid, bold Dark Grey/Silver */
+    font-weight: 800;        /* Makes the grey extra bold to stand out */
+    text-transform: uppercase; /* Optional: Makes them look like professional labels */
+    letter-spacing: 0.5px;   /* Gives the text a clean, modern feel */
+}
+
+/* If you want a slightly shinier "Silver" look, use this color instead: */
+/* color: #C0C0C0; */
+.how-it-works-btn {
+    background: transparent;
+    color: #00FFFF; /* Cyan Color */
+    border: 2px solid #00FFFF;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.how-it-works-btn:hover {
+    background: #00FFFF;
+    color: #000; /* Text turns black when hovering */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers the button */
+    padding: 40px 0;         /* Gives it room so it's not squashed */
+    clear: both;             /* Prevents other elements from overlapping */
+}
+
+.how-it-works-btn {
+    display: inline-block;    /* Ensures it has dimensions */
+    background: transparent;
+    color: #00FFFF !important; /* Forces Cyan color */
+    border: 2px solid #00FFFF;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 8px;
+    transition: 0.3s;
+    z-index: 100;             /* Makes sure it's on top of everything */
+}
+
+.how-it-works-btn:hover {
+    background: #00FFFF;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+</style>
+</head>
+<body>
+
+    <div id="splash">
+        <div class="glow-up">ZELA</div>
+        <div class="creator-tag">By JEXA</div>
+    </div>
+
+    <div id="main-content">
+        <header class="header-bar header-center">
+    <h2 class="zela-float big-zela">
+        <img src="index.html" alt="Zela Logo" class="main-logo"> 
+        ZELA
+    </h2>
+    <button class="jexa-btn" onclick="openWriter()">WRITTEN BY JEXA</button>
+</header>
+
+<section class="card">
+
+
+    <!-- WHAT -->
+   
+   <div class="cmms-section reveal">
+
+<h1 class="floating-title">
+
+
+            <span class="section-icon">⚙️</span>
+            What is <span>CMMS?</span>
+        </h1>
+
+       
+    
+    <ul class="cmms-list">
+        <li><strong>Digital Centralization:</strong> A high-performance platform that unifies all maintenance data in one place.</li>
+        <li><strong>Automated Workflows:</strong> Streamlines operations by automating work orders and scheduling.</li>
+        <li><strong>Real-Time Tracking:</strong> Monitors equipment health instantly to optimize asset performance.</li>
+        <li><strong>Proactive Strategy:</strong> Transforms complex tasks into a simplified plan that ensures maximum uptime.</li>
+        <li><strong>Organizational Efficiency:</strong> Drives better results by reducing manual errors and downtime.</li>
+    </ul>
+
+    </div>
+
+    <div class="glow-divider"></div>
+
+    <!-- WHY -->
+    <div class="cmms-section reveal">
+
+
+    <h1 class="floating-title">
+
+            <span class="section-icon">📊</span>
+            Why is <span>CMMS</span> used?
+        </h1>
+
+        <ul class="cmms-list">
+    <li><strong>Prevents Breakdowns:</strong> It helps you schedule regular check-ups for machines so they don't stop working unexpectedly.</li>
+    <li><strong>Saves Money:</strong> Fixing small issues early is much cheaper than paying for a total equipment failure later on.</li>
+    <li><strong>Ends Paperwork Mess:</strong> It moves all your notes and tasks into a digital system so nothing gets lost on a desk or clipboard.</li>
+    <li><strong>Increases Lifespan:</strong> Well-maintained tools and machines last much longer, meaning you don't have to buy replacements as often.</li>
+    <li><strong>Improves Safety:</strong> By ensuring regular inspections are completed, it creates a much safer environment for workers.</li>
+    <li><strong>Manages Inventory:</strong> It tracks your spare parts so you always know if you have the right bolt or tool in stock for a repair.</li>
+    <li><strong>Better Organization:</strong> It lets managers see exactly what work is being done and who is doing it in real-time.</li>
+</ul>
+
+    </div>
+
+    <div class="glow-divider"></div>
+
+<!-- WHERE -->
+<div class="cmms-section reveal">
+
+    <h1 class="floating-title">
+
+        <span class="section-icon">🏭</span>
+        Where is <span>CMMS</span> used?
+    </h1>
+
+    <ul class="cmms-list">
+    <li><strong>Manufacturing Plants:</strong> Used to keep heavy machinery and assembly lines running without unexpected breakdowns.</li>
+    <li><strong>Facilities & Buildings:</strong> Used in hospitals, schools, and offices to manage AC units, elevators, and lighting.</li>
+    <li><strong>Fleet Management:</strong> Used to track maintenance for delivery trucks, buses, and company cars to keep them safe on the road.</li>
+    <li><strong>Energy & Utilities:</strong> Used at power plants and water treatment centers to monitor critical infrastructure 24/7.</li>
+    <li><strong>Hotels & Resorts:</strong> Used to handle guest room repairs, pool maintenance, and kitchen equipment quickly.</li>
+    <li><strong>Oil & Gas:</strong> Used on rigs and refineries to manage complex parts and meet strict safety regulations.</li>
+    <li><strong>Data Centers:</strong> Used to ensure cooling systems and backup generators never fail, preventing server crashes.</li>
+</ul>
+
+</div>
+
+</section>
+
+<div class="button-container">
+    <button class="how-it-works-btn" onclick="showHowItWorks()">HOW IT WORKS</button>
+</div>
+
+<div id="how-it-works-section" style="display: none; padding: 50px 20px; text-align: left;">
+    <h2 class="section-title" style="color: #A9A9A9; text-align: center;">HOW IT WORKS</h2>
+    <hr class="title-underline">
+    
+    <ul class="cmms-list">
+        <li><strong>Step 1: Setup</strong> — Upload your equipment list and team details into the digital system.</li>
+        <li><strong>Step 2: Schedule</strong> — Create recurring maintenance tasks so you never miss a service date.</li>
+        <li><strong>Step 3: Assign</strong> — Send work orders directly to technicians' phones via the app.</li>
+        <li><strong>Step 4: Analyze</strong> — Use real-time data to track costs and machine performance.</li>
+    </ul>
+</div>
+<!-- WRITER INFO SCREEN -->
+<div id="writer-screen">
+    <div class="writer-card">
+        <h1>About the Writer</h1>
+        <p style="color:#888;"><strong>JEXA</strong></p>
+        <p style="color:#888;">
+            Writer is an anonymous identity who does not want to tell the name. 
+            Jexa has also made many applications and websites and is recently working on making a tech company. 
+            <br><br>
+            <strong>DETAILS:</strong><br>
+            NAME - JEXA (anonymous)<br>
+            AGE - 16 years<br>
+            Place of birth - Amritsar (Punjab, INDIA)
+        </p>
+        <button class="close-btn" onclick="closeWriter()">CLOSE</button>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('load', () => {
+        // Splash screen timing
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            const content = document.getElementById('main-content');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                content.style.opacity = '1';
+            }, 1200);
+        }, 3000);
+    });
+
+    // Toggle Writer Screen
+    function openWriter() {
+        document.getElementById('writer-screen').style.display = 'flex';
+    }
+
+    function closeWriter() {
+        document.getElementById('writer-screen').style.display = 'none';
+    }
+
+    // Scroll Reveal Logic
+    const reveals = document.querySelectorAll(".reveal");
+    function revealOnScroll() {
+        reveals.forEach(el => {
+            const top = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (top < windowHeight - 60) {
+                el.classList.add("active");
+            }
+        });
+    }
+    window.addEventListener("scroll", revealOnScroll);
+
+    // FIX: The Clean "How It Works" Function
+    function showHowItWorks() {
+        const target = document.getElementById('how-it-works-section');
+        
+        // Show the hidden div
+        target.style.display = 'block';
+        
+        // Smooth scroll to it
+        setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    }
+</script>
+</body>
+</html>
