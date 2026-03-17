@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CMMS Interface</title>
+
+<style>
+
+body{
+background:black;
+color:white;
+font-family:Segoe UI;
+text-align:center;
+margin:0;
+}
+
+.topbar{
+background:#111;
+padding:20px;
+border-bottom:1px solid #333;
+}
+
+.topbar h2{
+margin:0;
+color:#a855f7;
+}
+
+.topbar p{
+margin:5px 0 0;
+color:#777;
+font-size:0.9rem;
+}
+
+.dashboard{
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:50px;
+}
+
+.panel{
+background:#111;
+padding:30px;
+border-radius:15px;
+width:250px;
+border:1px solid #333;
+cursor:pointer;
+transition:0.3s;
+}
+
+.panel:hover{
+transform:scale(1.05);
+border-color:#a855f7;
+}
+
+.status{color:#00ff9c;font-weight:bold;}
+.warning{color:#ffcc00;font-weight:bold;}
+.offline{color:#ff4d4d;font-weight:bold;}
+
+.creator{
+color:#777;
+font-size:0.9rem;
+}
+
+.role{
+color:#666;
+font-size:0.8rem;
+margin-top:-10px;
+margin-bottom:30px;
+}
+
+.details{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:#111;
+padding:40px;
+border-radius:15px;
+border:1px solid #333;
+width:320px;
+}
+
+.details button{
+margin-top:15px;
+padding:8px 15px;
+background:#a855f7;
+border:none;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+.details button:hover{
+background:#9333ea;
+}
+.know-btn{
+background:#a855f7;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:6px;
+cursor:pointer;
+font-size:1rem;
+}
+
+.know-btn:hover{
+background:#9333ea;
+}
+
+.info{
+display:none;
+background:#111;
+border:1px solid #333;
+padding:25px;
+margin-top:30px;
+border-radius:10px;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
+color:#bbb;
+}
+.footer{
+margin-top:80px;
+padding:20px;
+text-align:center;
+color:#666;
+font-size:0.9rem;
+border-top:1px solid #222;
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<h2>ZELA CMMS</h2>
+<p>Live Monitoring System</p>
+</header>
+
+<h1>CMMS Dashboard</h1>
+<p class="creator">Dashboard by <b>JASMEEN</b></p>
+<p class="role">System Developer</p>
+
+<div class="dashboard">
+
+<div class="panel" onclick="openMachine('belt','Conveyor Belt')">
+<p>Machine: Conveyor Belt</p>
+<p>Status: <span id="belt-status" class="status">RUNNING</span></p>
+<p>Temperature: <span id="belt-temp">62</span>°C</p>
+</div>
+
+<div class="panel" onclick="openMachine('gen','Generator A4')">
+<p>Machine: Generator A4</p>
+<p>Status: <span id="gen-status" class="warning">WARNING</span></p>
+<p>Temperature: <span id="gen-temp">80</span>°C</p>
+</div>
+
+<div class="panel" onclick="openMachine('pump','Pump B7')">
+<p>Machine: Pump B7</p>
+<p>Status: <span id="pump-status" class="offline">OFFLINE</span></p>
+<p>Temperature: <span id="pump-temp">0</span>°C</p>
+</div>
+
+</div>
+
+
+<div id="machine-details" class="details">
+<h2 id="d-name"></h2>
+<p>Status: <span id="d-status"></span></p>
+<p>Temperature: <span id="d-temp"></span>°C</p>
+<p>Next Maintenance: <span id="d-maint"></span></p>
+
+<button onclick="toggleMachine()">Start / Stop</button>
+<br>
+<button onclick="closeMachine()">Close</button>
+
+</div>
+<div style="margin-top:40px;">
+<button class="know-btn" onclick="toggleInfo()">Know More</button>
+<div id="info-section" class="info">
+
+<h2>How the Machines Work</h2>
+
+<p>Conveyor Belt .......... Moves materials automatically in the factory.</p>
+
+<p>Generator A4 .......... Provides backup electricity when main power fails.</p>
+
+<p>Pump B7 .......... Pumps liquids such as water or oil through pipes.</p>
+
+<hr>
+
+<h3>System Behaviour</h3>
+
+<p>Machine RUNNING ----> Temperature changes automatically.</p>
+
+<p>Machine STOPPED ----> Temperature stops changing.</p>
+
+<p>Machine OFFLINE ----> Machine is not operating and needs service.</p>
+
+</div>
+
+</div>
+<footer class="footer">
+<p>© 2026 ZELA CMMS</p>
+<p>Built by JASMEEN</p>
+<p>All Rights Reserved</p>
+</footer>
+<script>
+
+function openMachine(name,status,temp,maint){
+
+document.getElementById("machine-details").style.display="block";
+
+document.getElementById("d-name").innerText=name;
+document.getElementById("d-status").innerText=status;
+document.getElementById("d-temp").innerText=temp;
+document.getElementById("d-maint").innerText=maint;
+
+}
+
+function closeMachine(){
+document.getElementById("machine-details").style.display="none";
+}
+
+function toggleMachine(){
+
+let status=document.getElementById("d-status");
+
+if(status.innerText==="RUNNING"){
+status.innerText="STOPPED";
+status.style.color="red";
+}
+else{
+status.innerText="RUNNING";
+status.style.color="#00ff9c";
+}
+
+}
+function toggleInfo(){
+
+let section=document.getElementById("info-section");
+
+if(section.style.display==="block"){
+section.style.display="none";
+}
+else{
+section.style.display="block";
+}
+
+}
+let currentMachine="";
+
+function openMachine(id,name){
+
+currentMachine=id;
+
+let status=document.getElementById(id+"-status").innerText;
+let temp=document.getElementById(id+"-temp").innerText;
+
+document.getElementById("machine-details").style.display="block";
+
+document.getElementById("d-name").innerText=name;
+document.getElementById("d-status").innerText=status;
+document.getElementById("d-temp").innerText=temp;
+
+}
+
+function closeMachine(){
+document.getElementById("machine-details").style.display="none";
+}
+
+function toggleMachine(){
+
+let status=document.getElementById("d-status");
+
+let dashStatus=document.getElementById(currentMachine+"-status");
+
+if(status.innerText==="RUNNING"){
+
+status.innerText="STOPPED";
+status.style.color="red";
+
+dashStatus.innerText="STOPPED";
+dashStatus.style.color="red";
+
+}
+else{
+
+status.innerText="RUNNING";
+status.style.color="#00ff9c";
+
+dashStatus.innerText="RUNNING";
+dashStatus.style.color="#00ff9c";
+
+}
+
+}
+
+
+setInterval(()=>{
+
+let machines=["belt","gen","pump"];
+
+machines.forEach(id=>{
+
+let status=document.getElementById(id+"-status").innerText;
+
+if(status==="RUNNING"){   // only change temp if running
+
+let temp=document.getElementById(id+"-temp");
+
+let value=parseInt(temp.innerText);
+
+value=value+(Math.floor(Math.random()*5)-2);
+
+if(value<20) value=20;
+
+temp.innerText=value;
+
+if(currentMachine===id){
+document.getElementById("d-temp").innerText=value;
+}
+
+}
+
+});
+
+},3000);
+function toggleInfo(){
+
+let section=document.getElementById("info-section");
+
+if(section.style.display==="block"){
+section.style.display="none";
+}
+else{
+section.style.display="block";
+}
+
+}
+</script>
+
+</body>
+</html>

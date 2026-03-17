@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>CMMS Knowledge Quiz</title>
+
+<style>
+
+body{
+background:black;
+color:white;
+font-family:Segoe UI;
+text-align:center;
+padding-top:60px;
+}
+
+/* floating title */
+
+.title{
+font-size:2.5rem;
+color:#ffd600;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+/* quiz panel */
+
+.quiz-panel{
+background:#111;
+border:1px solid #333;
+padding:40px;
+width:520px;
+margin:auto;
+border-radius:15px;
+margin-top:40px;
+box-shadow:0 0 20px #000;
+}
+
+/* question counter */
+
+.counter{
+color:#00e5ff;
+margin-bottom:10px;
+}
+
+/* buttons */
+
+button{
+display:block;
+margin:12px auto;
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#7c3aed;
+color:white;
+cursor:pointer;
+width:80%;
+font-size:15px;
+transition:0.2s;
+}
+
+button:hover{
+background:#9333ea;
+transform:scale(1.03);
+}
+
+.correct{
+border:3px solid #00ff9c;
+}
+
+.wrong{
+border:3px solid red;
+}
+
+/* result */
+
+.result{
+font-size:1.1rem;
+margin-top:20px;
+min-height:40px;
+}
+.progress{
+width:100%;
+height:10px;
+background:#222;
+border-radius:10px;
+margin-bottom:20px;
+overflow:hidden;
+}
+
+#progress{
+height:100%;
+width:0%;
+background:#00ff9c;
+transition:0.4s;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1 class="title">CMMS Knowledge Quiz</h1>
+
+<div class="quiz-panel">
+<div id="counter"></div>
+
+<div class="progress">
+<div id="progress"></div>
+</div>
+
+<h3 id="question"></h3>
+
+<button id="opt0"></button>
+<button id="opt1"></button>
+<button id="opt2"></button>
+
+<div id="result"></div>
+
+<button id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+</div>
+
+<script>
+
+let level = 1
+let questionIndex = 0
+let score = 0
+const QUESTIONS_PER_LEVEL = 15
+
+let usedQuestions = []
+
+/* Question pool */
+
+const pool = [
+
+{q:"What does CMMS stand for?",
+a:["Computerized Maintenance Management System","Central Machine Monitoring Service","Computer Machine Safety System"],
+c:0,
+e:"CMMS stands for Computerized Maintenance Management System."},
+
+{q:"What is the main purpose of CMMS?",
+a:["Maintenance tracking","Video streaming","Gaming system"],
+c:0,
+e:"CMMS helps manage maintenance and equipment data."},
+
+{q:"Which industry uses CMMS?",
+a:["Manufacturing","Healthcare","Both"],
+c:2,
+e:"Many industries use CMMS including factories and hospitals."},
+
+{q:"CMMS helps reduce what?",
+a:["Equipment downtime","Internet speed","Food waste"],
+c:0,
+e:"CMMS reduces downtime by planning maintenance."},
+
+{q:"CMMS tracks what?",
+a:["Equipment history","Movies","Music"],
+c:0,
+e:"CMMS records repairs and maintenance history."},
+
+{q:"CMMS supports which concept?",
+a:["Industry 4.0","Cooking","Gaming"],
+c:0,
+e:"CMMS supports smart factories in Industry 4.0."}
+
+]
+
+/* buttons */
+
+const buttons=[
+document.getElementById("opt0"),
+document.getElementById("opt1"),
+document.getElementById("opt2")
+]
+
+let currentQuestion
+
+/* get random question without repeating */
+
+function generateQuestion(){
+
+if(usedQuestions.length === pool.length){
+usedQuestions=[]
+}
+
+let random
+
+do{
+random = Math.floor(Math.random()*pool.length)
+}while(usedQuestions.includes(random))
+
+usedQuestions.push(random)
+
+currentQuestion = pool[random]
+
+}
+
+/* load question */
+
+function loadQuestion(){
+
+generateQuestion()
+
+document.getElementById("counter").innerText =
+"Level "+level+" • Question "+(questionIndex+1)+" / "+QUESTIONS_PER_LEVEL
+
+document.getElementById("question").innerText =
+currentQuestion.q
+
+buttons.forEach((btn,i)=>{
+
+btn.innerText=currentQuestion.a[i]
+
+btn.classList.remove("correct","wrong")
+
+btn.disabled=false
+
+btn.onclick=()=>answer(i)
+
+})
+
+document.getElementById("result").innerText=""
+
+document.getElementById("nextBtn").style.display="none"
+
+/* progress */
+
+let progress = ((questionIndex+1)/QUESTIONS_PER_LEVEL)*100
+
+document.getElementById("progress").style.width = progress+"%"
+
+}
+
+/* answer */
+
+function answer(choice){
+
+buttons.forEach(btn=>btn.disabled=true)
+
+if(choice===currentQuestion.c){
+
+buttons[choice].classList.add("correct")
+
+document.getElementById("result").innerHTML =
+"✅ Correct<br>"+currentQuestion.e
+
+score++
+
+}else{
+
+buttons[choice].classList.add("wrong")
+buttons[currentQuestion.c].classList.add("correct")
+
+document.getElementById("result").innerHTML =
+"❌ Wrong<br>"+currentQuestion.e
+
+}
+
+document.getElementById("nextBtn").style.display="block"
+
+}
+
+/* next */
+
+function nextQuestion(){
+
+questionIndex++
+
+if(questionIndex >= QUESTIONS_PER_LEVEL){
+
+finishLevel()
+
+}else{
+
+loadQuestion()
+
+}
+
+}
+
+/* finish level */
+
+function finishLevel(){
+
+document.querySelector(".quiz-panel").innerHTML =
+
+"<h2>🏆 Level "+level+" Complete</h2>"+
+"<p>Score: "+score+" / "+QUESTIONS_PER_LEVEL+"</p>"+
+"<button onclick='nextLevel()'>Next Level →</button>"
+
+}
+
+/* next level */
+
+function nextLevel(){
+
+level++
+questionIndex=0
+score=0
+usedQuestions=[]
+
+document.querySelector(".quiz-panel").innerHTML = `
+<div id="counter"></div>
+
+<div class="progress">
+<div id="progress"></div>
+</div>
+
+<h3 id="question"></h3>
+
+<button id="opt0"></button>
+<button id="opt1"></button>
+<button id="opt2"></button>
+
+<div id="result"></div>
+
+<button id="nextBtn" onclick="nextQuestion()">Next Question →</button>
+`
+
+buttons[0]=document.getElementById("opt0")
+buttons[1]=document.getElementById("opt1")
+buttons[2]=document.getElementById("opt2")
+
+loadQuestion()
+
+}
+
+/* start */
+
+loadQuestion()
+
+</script>
+
+</body>
+</html>
